@@ -589,6 +589,7 @@ function OnlineOrderingTeaser() {
                 <form
                   onSubmit={submit}
                   data-testid="newsletter-form"
+                  noValidate
                   className="space-y-4"
                 >
                   <label
