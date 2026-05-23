@@ -8,22 +8,31 @@ WORKDIR /app
 
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
-# yarn 1.x ships with node:20-slim, but install defensively in case it doesn't.
+# yarn 1.22 ships with node:20-slim, but install defensively in case it doesn't.
 RUN command -v yarn >/dev/null 2>&1 || npm install -g yarn@1.22.22
 
 COPY package.json yarn.lock* package-lock.json* ./
 
-# NOTE: we deliberately do NOT use --frozen-lockfile here.
-# React 19 + react-scripts has known peer-dep tugs-of-war; --frozen-lockfile
-# can fail the build on platform-specific lockfile drift. We still respect
-# the lockfile (yarn install reads it), we just don't error if a tiny resolve
-# differs on the build host.
-RUN if [ -f yarn.lock ]; then \
-      yarn install --network-timeout 600000; \
+# Print build environment first (useful when Coolify suppresses stderr).
+# Then install with --verbose so the real error surfaces.
+# If install fails, also cat yarn-error.log before exiting so we see why.
+RUN set -e; \
+    echo "=== BUILD ENV ==="; \
+    node --version; \
+    yarn --version; \
+    df -h /; \
+    free -h || true; \
+    echo "=== INSTALL ==="; \
+    if [ -f yarn.lock ]; then \
+      yarn install --network-timeout 600000 --non-interactive 2>&1 \
+        || (echo "=== YARN FAILED — DUMPING yarn-error.log ==="; \
+            cat yarn-error.log 2>/dev/null || true; \
+            ls -la; \
+            exit 1); \
     elif [ -f package-lock.json ]; then \
-      npm ci --no-audit --no-fund; \
+      npm ci --no-audit --no-fund --loglevel verbose; \
     else \
-      npm install --no-audit --no-fund; \
+      npm install --no-audit --no-fund --loglevel verbose; \
     fi
 
 # CRA: don't treat warnings as errors and skip sourcemaps to keep the build fast.
