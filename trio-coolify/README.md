@@ -28,7 +28,7 @@ trio-coolify/
 │   └── .dockerignore
 ├── docs/
 │   └── COOLIFY_DEPLOY.md
-├── docker-compose.yml      # frontend + backend + mongo wired together
+├── docker-compose.yaml      # frontend + backend + mongo wired together
 ├── .env.example
 └── .gitignore
 ```
@@ -45,7 +45,7 @@ docker compose up --build
 - Frontend: <http://localhost:8080> _(after publishing the port — see below)_
 - Mongo: internal only at `mongodb://mongo:27017`
 
-To run locally without a domain, edit `docker-compose.yml` and add to the
+To run locally without a domain, edit `docker-compose.yaml` and add to the
 `frontend` service:
 
 ```yaml

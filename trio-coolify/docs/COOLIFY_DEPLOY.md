@@ -22,7 +22,7 @@ End-to-end checklist for getting this app running on your Coolify VPS.
 4. **Branch**: `main`
 5. **Build Pack**: **Docker Compose**
 6. **Base Directory**: `/` (the compose file lives at repo root)
-7. **Docker Compose Location**: `docker-compose.yml`
+7. **Docker Compose Location**: `docker-compose.yaml`
 8. Save.
 
 ---
@@ -36,7 +36,7 @@ End-to-end checklist for getting this app running on your Coolify VPS.
 2. Coolify will automatically:
    - Route the public domain to the `frontend` service (port 80) via Traefik.
    - Issue a Let's Encrypt cert on first deploy.
-3. No Traefik labels needed in `docker-compose.yml` — Coolify handles them.
+3. No Traefik labels needed in `docker-compose.yaml` — Coolify handles them.
 
 ---
 
@@ -94,9 +94,9 @@ Push to `main`. Coolify will auto-detect and rebuild
 - **`502 Bad Gateway` right after deploy** — the backend takes ~15s to be healthy.
   Wait 30s, refresh. If it persists, check the backend container logs in Coolify.
 - **`/api/*` returns the React index.html** — NGINX `location /api/` block is missing
-  or the `backend` service name in `nginx.conf` doesn't match `docker-compose.yml`.
+  or the `backend` service name in `nginx.conf` doesn't match `docker-compose.yaml`.
 - **Mongo data lost on redeploy** — make sure the named volume `mongo_data` is
-  present in `docker-compose.yml` (it is by default). Coolify preserves named volumes
+  present in `docker-compose.yaml` (it is by default). Coolify preserves named volumes
   across deploys.
 - **Build fails with CRA "treat warnings as errors"** — the frontend Dockerfile
   already sets `CI=false`. If you forked it and removed that, restore it.

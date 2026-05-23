@@ -1,4 +1,4 @@
-# Coolify uses this docker-compose.yml as its build/run definition.
+# Coolify uses this docker-compose.yaml as its build/run definition.
 # Coolify will inject the public domain via Traefik labels automatically
 # when you set it in the UI — do NOT add traefik labels here.
 
