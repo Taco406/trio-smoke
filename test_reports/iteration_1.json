@@ -1,0 +1,46 @@
+{
+  "summary": "E2E testing of Trio Collectives landing page. Backend (5/5 pytest tests pass): root, newsletter create, idempotency, invalid email 422, list-no-_id-leak. Frontend: all 13 functional checks pass on a clean run — hero, nav anchors (about/shop/gallery/consign/visit), 5 category cards, 3 consign steps, newsletter success flow, footer (wordmark + IG/FB + shop links), mobile menu toggle. One real UX bug found around invalid-email toast (browser native validation blocks the JS toast).",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "OnlineOrderingTeaser newsletter form",
+        "issue": "Invalid email (e.g. 'abc') triggers the browser's native HTML5 validation tooltip (\"Please include an '@' in the email address\") because the input has type='email' + required, which blocks the form's onSubmit handler. As a result, the intended JS toast 'Please enter a valid email address.' (Landing.jsx line 531) NEVER fires. The acceptance criterion 'Newsletter form shows an error toast on invalid email' is not met by the JS-driven toast.",
+        "selector": "[data-testid=\"newsletter-form\"], [data-testid=\"newsletter-email-input\"]",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_trio_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Decide on validation UX for newsletter form: either (a) add `noValidate` to the <form> and/or drop `type=email`+`required` so the existing JS regex check + toast.error fires; or (b) keep native validation and remove the now-dead JS regex/toast branch. Option (a) preferred to honor the original 'error toast on invalid email' requirement and to keep validation messaging on-brand."
+  ],
+  "critical_code_review_comments": [
+    "Landing.jsx (837 lines) exceeds the 700-line guideline. Consider splitting Hero/Marquee/About/Categories/Gallery/Consignment/OnlineOrderingTeaser/Visit/Footer into their own files under /components/site/.",
+    "Newsletter regex + toast in submit() is effectively dead code because the input's native validation blocks JS submission for invalid emails (see UI bug above).",
+    "POST /api/newsletter returns 200 on create — convention would be 201. Not blocking; tests adapted.",
+    "Server.py uses deprecated FastAPI startup/shutdown decorator (@app.on_event('shutdown')) — consider migrating to lifespan handlers.",
+    "axios baseURL hardcoded via template-literal `${REACT_APP_BACKEND_URL}/api` is fine, but consider centralizing in an api client to avoid drift if more endpoints are added."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_trio_api.py"
+  ],
+  "success_rate": {
+    "backend": "100%",
+    "frontend": "92%"
+  },
+  "test_credentials": "n/a (no auth)",
+  "seed_data_creation": "Newsletter test signups inserted under TEST_/test_ prefixed unique emails (e.g. test_<uuid>@example.com). Safe to leave; not user-visible.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest suite at /app/backend/tests/test_trio_api.py — re-run with: pytest /app/backend/tests/test_trio_api.py -v. Only remaining issue is the invalid-email toast UX bug in OnlineOrderingTeaser. After main agent fixes (likely add noValidate to <form> in Landing.jsx around line 591 or drop type='email' / required on the Input), re-test by filling 'abc' into [data-testid=\"newsletter-email-input\"], clicking [data-testid=\"newsletter-submit\"], and asserting a sonner toast containing 'valid email' appears.",
+  "rca of the issue": "Root cause for invalid-email toast missing: The form input declares both type='email' and required attributes (Landing.jsx lines 604-605). When the user clicks submit with value 'abc', the browser's built-in constraint validation rejects the submit BEFORE React's onSubmit handler runs, showing the native popup tooltip 'Please include an '@' in the email address.' instead. Therefore the JS branch `if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { toast.error(...) }` is never reached for clearly-invalid inputs. Mitigation: add `noValidate` to the <form> element, or change type to 'text', so the React handler can run and trigger the sonner toast as designed."
+}
