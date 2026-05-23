@@ -4,12 +4,10 @@ import { toast } from "sonner";
 import {
   MapPin,
   Clock,
-  Phone,
   ArrowRight,
   ArrowUpRight,
   Mail,
   Instagram,
-  Facebook,
   Sparkles,
   Leaf,
   Recycle,
@@ -26,28 +24,34 @@ import useReveal from "@/hooks/useReveal";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-// ------- Images (from design guidelines + curated boutique imagery) -------
+// ------- Real photos from Daily Inter Lake feature (Kate Heston, Feb 2025) -------
 const IMG = {
-  hero: "https://static.prod-images.emergentagent.com/jobs/ccd3c8b7-230f-4731-b464-63ee6b62672c/images/167d4edb1f48fa88b6da0f9c6e6f0fc0c05fb9547148c14121bc0a648063ea25.png",
-  motif:
-    "https://static.prod-images.emergentagent.com/jobs/ccd3c8b7-230f-4731-b464-63ee6b62672c/images/73056f046f6bdde8ee2e6727aa79dbf8a40678a8bbe176d4ef53110858a50488.png",
-  homeDecor:
-    "https://images.unsplash.com/photo-1760863264233-99639e897e36?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxib3V0aXF1ZSUyMGludGVyaW9yJTIwaG9tZSUyMGRlY29yJTIwc3RvcmV8ZW58MHx8fHwxNzc5NTA2NDUwfDA&ixlib=rb-4.1.0&q=85",
-  kitchen:
-    "https://images.unsplash.com/photo-1509885969792-d005c2c10110?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxib3V0aXF1ZSUyMGludGVyaW9yJTIwaG9tZSUyMGRlY29yJTIwc3RvcmV8ZW58MHx8fHwxNzc5NTA2NDUwfDA&ixlib=rb-4.1.0&q=85",
+  // Wide store interior — kitchen decor & clothing
+  hero: "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_4_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+  // Owners: Janae Kaarto, Lynn Nasset, Josie Homola
+  owners:
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_3_of_7.jpg.2262x1498_q85_box-0%2C0%2C4524%2C2996_crop_detail.jpg",
+  // Swedish candy display
   candy:
-    "https://images.pexels.com/photos/4094589/pexels-photo-4094589.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_6_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+  // Store interior — home goods
+  homeDecor:
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_5_of_7.jpg.2391x1584_q85_box-0%2C0%2C4783%2C3168_crop_detail.jpg",
+  // Store interior — apparel + decor
   apparel:
-    "https://images.unsplash.com/photo-1596484552993-aec4311d3381?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMGFwcGFyZWwlMjByYWNrJTIwYm91dGlxdWV8ZW58MHx8fHwxNzc5NTA2NDQ5fDA&ixlib=rb-4.1.0&q=85",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_7_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+  // Kitchen + gifts mix shots — re-use wide interior since article shows few
+  kitchen:
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_4_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
   gifts:
-    "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=80",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_1_of_7_t1170.jpg",
   gallery: [
-    "https://images.pexels.com/photos/1827130/pexels-photo-1827130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.pexels.com/photos/5865686/pexels-photo-5865686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=80",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_5_of_7.jpg.2391x1584_q85_box-0%2C0%2C4783%2C3168_crop_detail.jpg",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_7_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_3_of_7.jpg.2262x1498_q85_box-0%2C0%2C4524%2C2996_crop_detail.jpg",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_6_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_4_of_7.jpg.2464x1632_q85_box-0%2C0%2C4928%2C3264_crop_detail.jpg",
+    "https://hagadone.media.clients.ellingtoncms.com/img/photos/2025/02/05/TrioCollective_Heston_1_of_7_t1170.jpg",
   ],
 };
 
@@ -264,34 +268,49 @@ function About() {
         </div>
         <div className="lg:col-span-8 reveal">
           <p className="font-serif text-3xl md:text-4xl lg:text-5xl leading-[1.15] text-forest-ink">
-            Three friends, one little shop on Main — built around the belief
-            that a home can be{" "}
+            A mother, two daughters, one little shop just off U.S. 2 — built
+            around the belief that a home can be{" "}
             <span className="italic text-forest">layered slowly</span>, that
             candy should{" "}
             <span className="italic text-forest">taste like memory</span>, and
             that good clothes deserve a{" "}
             <span className="italic text-forest">second chapter</span>.
           </p>
+          <p className="mt-8 text-muted2 text-sm md:text-base leading-relaxed max-w-3xl">
+            Trio Collectives is{" "}
+            <span className="text-forest-ink font-medium">Lynn Nasset</span> and
+            her daughters{" "}
+            <span className="text-forest-ink font-medium">Josie Homola</span>{" "}
+            and{" "}
+            <span className="text-forest-ink font-medium">Janae Kaarto</span> —
+            three Flathead-Valley locals who turned a long-held vision into a
+            creative one-stop shop in January 2025. Knickknacks for the kids,
+            elevated decor for the grown-ups, baby clothes, candles, cards,
+            Swedish pick-and-mix, and a fast-changing rack of new and gently
+            used women's clothing — gathered with a single eye for what people
+            actually love.
+          </p>
           <div className="mt-10 grid sm:grid-cols-3 gap-8 text-sm text-muted2 leading-relaxed">
             <div>
               <div className="text-forest-ink font-medium mb-2">
-                Locally rooted
+                Family-owned
               </div>
-              Born and raised in the Flathead Valley. We shop our neighbors
-              first, always.
+              A trio of women, 23 grandkids cheering them on, and a Flathead
+              Valley address — locally rooted in every sense.
             </div>
             <div>
               <div className="text-forest-ink font-medium mb-2">
-                Quietly imported
+                Local makers welcome
               </div>
-              Lakrits, gelé and pick-and-mix straight from Sweden — alongside
-              maker-made decor.
+              We stock small-batch lines like Sagebrush Home candles alongside
+              imports straight from Sweden.
             </div>
             <div>
               <div className="text-forest-ink font-medium mb-2">
                 Consignment welcome
               </div>
-              We give pre-loved apparel a thoughtful, well-styled second life.
+              We give pre-loved apparel a thoughtful, well-styled second life —
+              as space allows.
             </div>
           </div>
         </div>
@@ -443,17 +462,17 @@ function Consignment() {
     {
       icon: Mail,
       title: "Say hello",
-      copy: "Email us a few photos of the pieces you'd like to consign — we'll respond within 48 hours.",
+      copy: "DM us on Instagram @trio_collectives with a few photos of the pieces you'd like to consign — we respond as space allows.",
     },
     {
       icon: Check,
       title: "We curate",
-      copy: "If it's a fit, drop your items by the shop. We handle pricing, styling, and the rest.",
+      copy: "If it's a fit, drop your items by the shop on U.S. 2. We handle styling and pricing from there.",
     },
     {
       icon: HandCoins,
       title: "You get paid",
-      copy: "Earn store credit or cash on every sale. Simple terms, transparent splits.",
+      copy: "Earn cash or store credit on every sale. Simple terms, transparent splits, friendly process.",
     },
   ];
   return (
@@ -477,11 +496,13 @@ function Consignment() {
             no appointments needed for first inquiries.
           </p>
           <a
-            href="mailto:hello@triocollectives.com?subject=Consignment%20Inquiry"
+            href="https://www.instagram.com/trio_collectives/"
+            target="_blank"
+            rel="noreferrer"
             data-testid="consign-cta"
             className="mt-8 inline-flex items-center gap-3 h-12 px-6 rounded-full bg-forest text-cream text-sm uppercase tracking-widest2 hover:bg-forest-deep transition-colors"
           >
-            Start a consign inquiry
+            DM us on Instagram
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -659,14 +680,17 @@ function Visit() {
                   <div className="text-[11px] uppercase tracking-widest2 text-muted2">
                     Find us
                   </div>
-                  <div
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Trio+Collectives+1085+B+US+Highway+2+W+Kalispell+MT+59901"
+                    target="_blank"
+                    rel="noreferrer"
                     data-testid="visit-address"
-                    className="text-forest-ink mt-1"
+                    className="text-forest-ink mt-1 block hover:text-forest"
                   >
-                    Downtown Kalispell
+                    1085 B U.S. Hwy 2 W
                     <br />
-                    Montana, USA
-                  </div>
+                    Kalispell, MT 59901
+                  </a>
                 </div>
               </div>
               <div className="flex gap-4">
@@ -676,24 +700,28 @@ function Visit() {
                     Open
                   </div>
                   <div data-testid="visit-hours" className="text-forest-ink mt-1">
-                    Mon–Sat · 10am–6pm
+                    Tue–Fri · 10am–6pm
                     <br />
-                    Sunday · 11am–4pm
+                    Sat · 10am–2pm
+                    <br />
+                    <span className="text-muted2 text-sm">Closed Sun &amp; Mon</span>
                   </div>
                 </div>
               </div>
               <div className="flex gap-4">
-                <Phone className="h-5 w-5 text-forest mt-1 shrink-0" />
+                <Instagram className="h-5 w-5 text-forest mt-1 shrink-0" />
                 <div>
                   <div className="text-[11px] uppercase tracking-widest2 text-muted2">
-                    Phone
+                    Follow
                   </div>
                   <a
-                    href="tel:+14065550123"
-                    data-testid="visit-phone"
+                    href="https://www.instagram.com/trio_collectives/"
+                    target="_blank"
+                    rel="noreferrer"
+                    data-testid="visit-instagram"
                     className="text-forest-ink mt-1 block hover:text-forest"
                   >
-                    (406) 555-0123
+                    @trio_collectives
                   </a>
                 </div>
               </div>
@@ -701,14 +729,16 @@ function Visit() {
                 <Mail className="h-5 w-5 text-forest mt-1 shrink-0" />
                 <div>
                   <div className="text-[11px] uppercase tracking-widest2 text-muted2">
-                    Email
+                    Consignment
                   </div>
                   <a
-                    href="mailto:hello@triocollectives.com"
-                    data-testid="visit-email"
+                    href="https://www.instagram.com/trio_collectives/"
+                    target="_blank"
+                    rel="noreferrer"
+                    data-testid="visit-consign"
                     className="text-forest-ink mt-1 block hover:text-forest"
                   >
-                    hello@triocollectives.com
+                    DM us on Instagram
                   </a>
                 </div>
               </div>
@@ -721,7 +751,7 @@ function Visit() {
                 title="Trio Collectives map"
                 data-testid="visit-map"
                 className="absolute inset-0 h-full w-full grayscale-[0.4] contrast-[0.95]"
-                src="https://www.google.com/maps?q=Kalispell%2C%20Montana&output=embed"
+                src="https://www.google.com/maps?q=1085+B+US+Highway+2+W%2C+Kalispell%2C+MT+59901&output=embed"
                 loading="lazy"
               />
             </div>
@@ -753,7 +783,7 @@ function Footer() {
             </div>
             <p className="mt-6 max-w-sm text-sm text-cream/70 leading-relaxed">
               Home decor. Kitchen. Gifts. Swedish candy. New &amp; used apparel.
-              A small, locally-loved shop in Kalispell, Montana.
+              A family-owned shop at 1085 B U.S. 2 W, Kalispell, Montana.
             </p>
           </div>
           <div className="md:col-span-3">
@@ -780,24 +810,23 @@ function Footer() {
             </div>
             <div className="flex items-center gap-4">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/trio_collectives/"
                 target="_blank"
                 rel="noreferrer"
                 data-testid="footer-instagram"
                 className="h-11 w-11 inline-flex items-center justify-center rounded-full border border-cream/20 hover:bg-cream hover:text-forest-ink transition-colors"
-                aria-label="Instagram"
+                aria-label="Instagram @trio_collectives"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://www.instagram.com/trio_collectives/"
                 target="_blank"
                 rel="noreferrer"
-                data-testid="footer-facebook"
-                className="h-11 w-11 inline-flex items-center justify-center rounded-full border border-cream/20 hover:bg-cream hover:text-forest-ink transition-colors"
-                aria-label="Facebook"
+                data-testid="footer-instagram-handle"
+                className="text-sm text-cream/80 hover:text-cream"
               >
-                <Facebook className="h-4 w-4" />
+                @trio_collectives
               </a>
             </div>
             <p className="mt-6 text-[11px] text-cream/50 leading-relaxed">

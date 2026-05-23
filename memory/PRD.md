@@ -52,3 +52,19 @@ Build a quick, cost-effective free demo landing page for a potential client — 
 - **Owner / Trio team**: wants a clean, on-brand digital storefront that captures email leads for the upcoming online store and explains consignment without phone tag.
 - **Local shopper**: needs hours, address, and a feel for what's inside before visiting.
 - **Consignor**: wants to understand the consignment process and reach out in one click.
+
+## Update — 2025-12 (real content swap)
+Swapped all placeholder copy/imagery for real Trio Collectives data sourced from the Daily Inter Lake feature (Kate Heston, Feb 2025):
+- Photos (hero, categories, gallery): 6 real interior + owner photos from hagadone.media (Daily Inter Lake CDN, all 200 OK)
+- About: real story of Lynn Nasset and daughters Josie Homola & Janae Kaarto; opened Jan 2025; Sagebrush Home candles partner
+- Visit: 1085 B U.S. Hwy 2 W, Kalispell, MT 59901
+- Hours: Tue–Fri 10am–6pm · Sat 10am–2pm · Closed Sun & Mon
+- Social: Instagram @trio_collectives (Facebook icon removed — not publicly verified)
+- Consign CTA + step 1 routes to Instagram DMs (no public phone/email confirmed)
+- Map embed now shows the real address
+- Newsletter form `noValidate` fix so JS error toast fires for invalid emails
+
+Still placeholder / not yet provided by client:
+- Phone number
+- Direct email address
+- Newsletter ESP integration (currently DB only)
