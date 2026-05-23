@@ -1,0 +1,129 @@
+{
+  "design_system": {
+    "theme": "Light",
+    "archetype": "1 (Organic & Earthy)",
+    "domain": "Retail Boutique / Lifestyle",
+    "rationale": "Patients/customers need warmth and trust. A warm sand/cream background with deep forest/sage accents fits the earthy boutique brand identity and the user's explicit request."
+  },
+  "typography": {
+    "heading_font": "Cormorant Garamond",
+    "body_font": "Manrope",
+    "rules": {
+      "h1": "text-5xl sm:text-6xl tracking-tighter leading-[1.1] font-light italic-friendly",
+      "h2": "text-3xl sm:text-4xl tracking-tight leading-none font-medium",
+      "h3": "text-xl sm:text-2xl font-medium",
+      "body": "text-base leading-relaxed tracking-wide",
+      "overline": "text-xs uppercase tracking-[0.2em] font-semibold text-accent-forest"
+    },
+    "google_fonts_url": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap"
+  },
+  "colors": {
+    "background": {
+      "DEFAULT": "hsl(40, 33%, 96%)",
+      "alt": "hsl(35, 20%, 92%)",
+      "dark": "hsl(148, 25%, 15%)"
+    },
+    "foreground": {
+      "DEFAULT": "hsl(220, 20%, 15%)",
+      "muted": "hsl(220, 10%, 40%)",
+      "inverse": "hsl(40, 33%, 96%)"
+    },
+    "accent": {
+      "forest": "hsl(148, 25%, 24%)",
+      "sage": "hsl(120, 15%, 70%)"
+    },
+    "tailwind_config_notes": "Map these HSL values to Tailwind's config under theme.extend.colors. Use semantic names like 'bg-background', 'text-foreground', 'bg-accent-forest', 'text-accent-sage'."
+  },
+  "layout_and_spacing": {
+    "container": "max-w-7xl mx-auto px-6 lg:px-12",
+    "section_padding": "py-24 lg:py-32",
+    "bento_grid": "Grid layout for categories: grid-cols-1 md:grid-cols-8 lg:grid-cols-12 with gap-8. Mix tall (row-span-2) and square items. Avoid generic symmetric 3-column grids."
+  },
+  "sections_blueprint": [
+    {
+      "name": "Navigation/Header",
+      "strategy": "Sticky top-0 z-50. Glassmorphism: backdrop-blur-xl bg-background/80 with a subtle border-b border-foreground/5. Must contain Logo (Wordmark: TRIO Collectives), links, and CTA 'Visit Us'."
+    },
+    {
+      "name": "Hero Section",
+      "strategy": "Asymmetric split layout. Left side: Generous typography, overline, H1, leaf motif image floating behind or near text, and two CTAs. Right side: Large high-end boutique interior image with subtle rounded corners (rounded-xl) and a slight parallax effect.",
+      "content": {
+        "title": "Curated finds for your home & wardrobe.",
+        "tagline": "Home decor. Kitchen. Gifts. Swedish candy. New & used apparel.",
+        "overline": "Kalispell, MT"
+      }
+    },
+    {
+      "name": "About/Story",
+      "strategy": "Large typography statement. Use Cormorant Garamond for a giant pull-quote style text. Generous whitespace, cream background. Include small organic leaf motif SVG or image as an accent."
+    },
+    {
+      "name": "Categories (Bento Grid)",
+      "strategy": "Tetris bento grid (Mode A). 5 items: Home Decor (dominant), Kitchen, Gifts, Swedish Candy, Apparel. Use hover scale effects on images and group-hover text color changes. Each bento card has background-alt or forest green, p-8, rounded-2xl.",
+      "items": ["Home Decor", "Kitchen Goods", "Gifts", "Swedish Candy", "New & Used Apparel"]
+    },
+    {
+      "name": "Photo Gallery",
+      "strategy": "Masonry or overlapping staggered columns of store interior shots. Minimal text, high visual impact."
+    },
+    {
+      "name": "Consignment Info & Online Ordering Teaser",
+      "strategy": "Two-column or overlapping layout. Left: Consignment process with elegant list/steps. Right: 'Coming Soon: Online Ordering' via Toast POS. Use Shadcn Input & Button for email signup. Dark mode card (bg-accent-forest text-white) to break up the cream background."
+    },
+    {
+      "name": "Visit & Contact (Footer)",
+      "strategy": "Massive typography for 'Let's Talk' or 'Visit Us'. Address, Hours, Phone. Very large padding (py-32)."
+    }
+  ],
+  "components_strategy": {
+    "html": "Use raw HTML/Tailwind for layouts, bento grids, and hero. Ensure organic, asymmetrical, overlapping layers.",
+    "shadcn": "Use Shadcn 'Input' and 'Button' ONLY for the email signup form. Customize button to be rounded-none or very slight rounded-sm, bg-foreground text-background hover:bg-accent-forest.",
+    "icons": "Use lucide-react (MapPin, Clock, Phone, ArrowRight, Mail)."
+  },
+  "images": {
+    "hero": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/ccd3c8b7-230f-4731-b464-63ee6b62672c/images/167d4edb1f48fa88b6da0f9c6e6f0fc0c05fb9547148c14121bc0a648063ea25.png",
+      "description": "Warm elegant local boutique interior, displaying rustic home decor"
+    },
+    "motif": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/ccd3c8b7-230f-4731-b464-63ee6b62672c/images/73056f046f6bdde8ee2e6727aa79dbf8a40678a8bbe176d4ef53110858a50488.png",
+      "description": "Subtle organic watercolor sage green leaf motif"
+    },
+    "home_decor": {
+      "url": "https://images.unsplash.com/photo-1760863264233-99639e897e36?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxib3V0aXF1ZSUyMGludGVyaW9yJTIwaG9tZSUyMGRlY29yJTIwc3RvcmV8ZW58MHx8fHwxNzc5NTA2NDUwfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Bohemian shop interior"
+    },
+    "kitchen": {
+      "url": "https://images.unsplash.com/photo-1509885969792-d005c2c10110?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxib3V0aXF1ZSUyMGludGVyaW9yJTIwaG9tZSUyMGRlY29yJTIwc3RvcmV8ZW58MHx8fHwxNzc5NTA2NDUwfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Pots on display"
+    },
+    "candy": {
+      "url": "https://images.pexels.com/photos/4094589/pexels-photo-4094589.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Colorful jars of candy"
+    },
+    "apparel": {
+      "url": "https://images.unsplash.com/photo-1596484552993-aec4311d3381?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMGFwcGFyZWwlMjByYWNrJTIwYm91dGlxdWV8ZW58MHx8fHwxNzc5NTA2NDQ5fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Clothing on rack"
+    },
+    "gallery": [
+      "https://images.pexels.com/photos/1827130/pexels-photo-1827130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "https://images.pexels.com/photos/5865686/pexels-photo-5865686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    ]
+  },
+  "interactions_and_motion": {
+    "scrolling": "Use framer-motion for scroll-triggered reveal animations. Fade up (y: 20) with low opacity, springing into place.",
+    "hover": "Images in categories should subtly scale up (scale-105) on hover with smooth transition. Buttons should shift slightly or change color.",
+    "texture": "Consider adding a subtle CSS noise overlay (opacity-10) over the background colors to give a physical paper/boutique feel."
+  },
+  "testing": {
+    "requirements": "All interactive and key informational elements MUST include a data-testid attribute in kebab-case."
+  },
+  "instructions_to_main_agent": [
+    "Load the Google Fonts (Cormorant Garamond and Manrope) in index.html.",
+    "Configure Tailwind with the exact HSL color tokens provided in the colors block.",
+    "Do NOT use generic Shadcn Card component for the Bento grid or layout structures. Only use Shadcn for the specific email signup Input and Button.",
+    "Ensure generous spacing (py-24, py-32) and asymmetric bento layouts.",
+    "Implement scroll animations with framer-motion.",
+    "Never use generic placeholder images. Use the provided high-quality image URLs in this JSON file."
+  ]
+}
