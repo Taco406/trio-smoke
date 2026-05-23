@@ -1,0 +1,46 @@
+# Coolify uses this docker-compose.yml as its build/run definition.
+# Coolify will inject the public domain via Traefik labels automatically
+# when you set it in the UI — do NOT add traefik labels here.
+
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    # Mongo is intentionally NOT exposed to the public internet.
+    # Other services on this compose network reach it at mongodb://mongo:27017
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    environment:
+      MONGO_URL: ${MONGO_URL:-mongodb://mongo:27017}
+      DB_NAME: ${DB_NAME:-trio_prod}
+      CORS_ORIGINS: ${CORS_ORIGINS:-*}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    expose:
+      - "8000"
+    # ports: ["8000:8000"]  # uncomment for local debugging only
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    # Coolify will route the public domain to this service over port 80
+    # via Traefik on the internal Docker network. Do NOT publish ports here.
+    expose:
+      - "80"
+
+volumes:
+  mongo_data:

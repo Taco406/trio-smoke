@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand-mapped shadcn tokens (light, warm) */
+    --background: 40 33% 96%;
+    --foreground: 220 20% 15%;
+    --card: 40 33% 96%;
+    --card-foreground: 220 20% 15%;
+    --popover: 40 33% 96%;
+    --popover-foreground: 220 20% 15%;
+    --primary: 148 25% 24%;
+    --primary-foreground: 40 33% 96%;
+    --secondary: 35 20% 92%;
+    --secondary-foreground: 148 25% 15%;
+    --muted: 35 20% 92%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 120 15% 70%;
+    --accent-foreground: 148 25% 15%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 40 33% 96%;
+    --border: 30 15% 85%;
+    --input: 30 15% 85%;
+    --ring: 148 25% 24%;
+    --radius: 0.25rem;
+  }
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss01", "ss02";
+}
+
+::selection {
+  background-color: hsl(148 25% 24%);
+  color: hsl(40 33% 96%);
+}
+
+/* Subtle paper-grain noise overlay (utility) */
+.bg-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.65 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.font-serif {
+  font-family: "Cormorant Garamond", ui-serif, Georgia, serif;
+  font-feature-settings: "liga", "dlig";
+}
