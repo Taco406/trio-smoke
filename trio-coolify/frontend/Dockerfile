@@ -1,20 +1,25 @@
 # syntax=docker/dockerfile:1.6
 
 # ---------- Stage 1: build ----------
-FROM node:20-alpine AS builder
+# node:20-slim (Debian-based, glibc) avoids the musl/native-binary compile failures
+# that node:20-alpine often hits on React 19 + CRA dep trees.
+FROM node:20-slim AS builder
 WORKDIR /app
 
-# node:20-alpine ships with yarn 1.x, but install defensively in case the base image changes.
-# Disable corepack's interactive download prompt (introduced in Node 20) so the build
-# never hangs waiting for stdin.
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
+# yarn 1.x ships with node:20-slim, but install defensively in case it doesn't.
 RUN command -v yarn >/dev/null 2>&1 || npm install -g yarn@1.22.22
 
 COPY package.json yarn.lock* package-lock.json* ./
 
-# Use the lockfile when available, otherwise fall back to a fresh install.
+# NOTE: we deliberately do NOT use --frozen-lockfile here.
+# React 19 + react-scripts has known peer-dep tugs-of-war; --frozen-lockfile
+# can fail the build on platform-specific lockfile drift. We still respect
+# the lockfile (yarn install reads it), we just don't error if a tiny resolve
+# differs on the build host.
 RUN if [ -f yarn.lock ]; then \
-      yarn install --frozen-lockfile --network-timeout 600000; \
+      yarn install --network-timeout 600000; \
     elif [ -f package-lock.json ]; then \
       npm ci --no-audit --no-fund; \
     else \
@@ -24,7 +29,8 @@ RUN if [ -f yarn.lock ]; then \
 # CRA: don't treat warnings as errors and skip sourcemaps to keep the build fast.
 ENV CI=false \
     GENERATE_SOURCEMAP=false \
-    DISABLE_ESLINT_PLUGIN=true
+    DISABLE_ESLINT_PLUGIN=true \
+    NODE_OPTIONS=--max-old-space-size=2048
 
 COPY . .
 RUN if [ -f yarn.lock ]; then yarn build; else npm run build; fi
